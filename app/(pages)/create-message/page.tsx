@@ -26,6 +26,7 @@ export default function Dashboard() {
               name="recipient"
               type="tel"
               placeholder="Enter phone number"
+              onChange={onChange}
             />
           </div>
           <div className="flex items-center">
@@ -39,6 +40,7 @@ export default function Dashboard() {
               id="message"
               name="message"
               placeholder="Enter your message"
+              onChange={onChange}
             />
           </div>
           <div className="flex w-full justify-end">
