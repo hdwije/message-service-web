@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Form, Input, Textarea } from '@heroui/react';
+import { Input, PrimaryButton, Textarea, Title } from '@/app/components/common';
+import { Form } from '@heroui/react';
 import { useCallback } from 'react';
 
 export default function Dashboard() {
@@ -9,27 +10,44 @@ export default function Dashboard() {
   const onChange = useCallback(() => {}, []);
 
   return (
-    <div>
-      <Form onSubmit={onSubmit}>
-        <Input
-          isRequired
-          errorMessage="Only accept numbers"
-          label="Recipient Number"
-          labelPlacement="outside-left"
-          name="to"
-          placeholder="Enter the recipient number"
-          type="number"
-          onChange={onChange}
-        />
-        <Textarea
-          isDisabled
-          className="max-w-xs"
-          label="Message"
-          labelPlacement="outside-left"
-          placeholder="Enter your message"
-        />
-        <Button color="primary">Send</Button>
-      </Form>
-    </div>
+    <>
+      <Title name="Create Message" />
+      <div className="mt-4 flex w-full flex-col items-center">
+        <Form className="max-w-md space-y-4" onSubmit={onSubmit}>
+          <div className="flex flex-row items-center justify-center">
+            <label
+              htmlFor="recipient"
+              className="w-32 items-center text-sm font-medium text-gray-700"
+            >
+              Recipient
+            </label>
+            <Input
+              id="recipient"
+              name="recipient"
+              type="tel"
+              placeholder="Enter phone number"
+            />
+          </div>
+          <div className="flex items-center">
+            <label
+              htmlFor="message"
+              className="w-32 text-sm font-medium text-gray-700"
+            >
+              Message
+            </label>
+            <Textarea
+              id="message"
+              name="message"
+              placeholder="Enter your message"
+            />
+          </div>
+          <div className="flex w-full justify-end">
+            <PrimaryButton type="submit" color="primary">
+              Submit
+            </PrimaryButton>
+          </div>
+        </Form>
+      </div>
+    </>
   );
 }

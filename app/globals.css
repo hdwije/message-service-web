@@ -1,2 +1,8 @@
-@import "tailwindcss";
-@config "../tailwind.config.ts"; 
+@import 'tailwindcss';
+@config "../tailwind.config.ts";
+
+html,
+body {
+  color: #111827;
+  backgroundcolor: #fdfdfe;
+}
