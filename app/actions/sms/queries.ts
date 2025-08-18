@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from '../configs/axios.configs';
 
 export function useGetMessages() {
+  console.log('ppppp');
+  
   return useQuery<Sms[]>({
     queryKey: ['sms'],
     queryFn: async (): Promise<Sms[]> => {

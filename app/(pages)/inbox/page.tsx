@@ -31,25 +31,32 @@ export default function InboxPage() {
       return <Alert color="primary" title="Inbox is empty" />;
     }
 
-    return messages.map((message, index) => {
-      return (
-        <div
-          key={index}
-          className="flex items-center justify-between rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 p-4 shadow-lg"
-        >
-          <div>
-            <h2 className="text-lg font-bold text-indigo-900">{message.to}</h2>
-            <p className="text-gray-600">{message.sid}</p>
-          </div>
-          <PrimaryButton
-            className="bg-indigo-500 font-semibold text-white transition hover:bg-indigo-600"
-            onPress={() => viewMessage(message)}
+    console.log(messages);
+
+    return (
+      messages &&
+      messages.map((message, index) => {
+        return (
+          <div
+            key={index}
+            className="flex items-center justify-between rounded-xl border border-indigo-100 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 p-4 shadow-lg"
           >
-            View
-          </PrimaryButton>
-        </div>
-      );
-    });
+            <div>
+              <h2 className="text-lg font-bold text-indigo-900">
+                {message.to}
+              </h2>
+              <p className="text-gray-600">{message.sid}</p>
+            </div>
+            <PrimaryButton
+              className="bg-indigo-500 font-semibold text-white transition hover:bg-indigo-600"
+              onPress={() => viewMessage(message)}
+            >
+              View
+            </PrimaryButton>
+          </div>
+        );
+      })
+    );
   }, [messages, viewMessage]);
 
   return (
@@ -59,7 +66,9 @@ export default function InboxPage() {
         {isLoading ? (
           <Spinner />
         ) : (
-          <div className="flex w-full flex-col gap-2">{messageList}</div>
+          <div className="flex max-h-[calc(100vh-100px)] w-full flex-col gap-2 overflow-y-auto">
+            {messageList}
+          </div>
         )}
       </div>
       {currentMessage && (

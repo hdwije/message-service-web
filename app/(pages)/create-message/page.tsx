@@ -111,7 +111,7 @@ export default function Dashboard() {
           </div>
           <div className="flex w-full justify-end">
             <PrimaryButton type="submit" color="primary">
-              Submit
+              Send
             </PrimaryButton>
           </div>
         </Form>

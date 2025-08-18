@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
+import MessageBox from '../components/MessageBox';
 
 export default function PagesLayout({
   children,
@@ -61,7 +62,10 @@ export default function PagesLayout({
         </div>
         <div className="mt-3 flex flex-col">{menuList}</div>
       </div>
-      <div className="w-5/6 p-2">{children}</div>
+      <div className="w-3/6 p-2">{children}</div>
+      <div className="w-2/6 p-2">
+        <MessageBox />
+      </div>
     </div>
   );
 }
