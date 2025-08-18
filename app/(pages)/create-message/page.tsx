@@ -75,13 +75,13 @@ export default function Dashboard() {
   return (
     <>
       <Title name="Create Message" />
-      <div className="mt-4 flex w-full flex-col items-center">
+      <div className="mt-4 flex w-full flex-col items-center rounded-lg border border-indigo-100 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 p-3 shadow-sm">
         {alert}
         <Form className="w-1/2 space-y-4" onSubmit={onSubmit}>
           <div className="flex w-full items-center justify-center">
             <label
               htmlFor="recipient"
-              className="w-1/3 items-center text-sm font-medium text-gray-700"
+              className="w-1/3 items-center text-sm font-medium text-indigo-800"
             >
               Recipient
             </label>
@@ -97,7 +97,7 @@ export default function Dashboard() {
           <div className="flex w-full items-center">
             <label
               htmlFor="message"
-              className="w-1/3 text-sm font-medium text-gray-700"
+              className="w-1/3 text-sm font-medium text-indigo-800"
             >
               Message
             </label>
