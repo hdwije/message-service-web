@@ -1,12 +1,30 @@
 'use client';
 
 import { useGetMessages } from '@/app/actions/sms/queries';
-import { PrimaryButton, Title } from '@/app/components/common';
-import { Alert, Spinner } from '@heroui/react';
-import { useMemo } from 'react';
+import { Sms } from '@/app/common/types';
+import { PrimaryButton, Spinner, Title } from '@/app/components/common';
+import { Alert } from '@heroui/react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { MessageModal } from './MessageModal';
 
 export default function InboxPage() {
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState<Sms | undefined>(
+    undefined,
+  );
+
   const { data: messages, isLoading } = useGetMessages();
+
+  useEffect(() => {
+    if (!showMessageModal) {
+      setCurrentMessage(undefined);
+    }
+  }, [showMessageModal]);
+
+  const viewMessage = useCallback((message: Sms) => {
+    setCurrentMessage(message);
+    setShowMessageModal(true);
+  }, []);
 
   const messageList = useMemo(() => {
     if (!messages) {
@@ -23,24 +41,36 @@ export default function InboxPage() {
             <h2 className="text-lg font-bold text-indigo-900">{message.to}</h2>
             <p className="text-gray-600">{message.sid}</p>
           </div>
-          <PrimaryButton className="bg-indigo-500 font-semibold text-white transition hover:bg-indigo-600">
+          <PrimaryButton
+            className="bg-indigo-500 font-semibold text-white transition hover:bg-indigo-600"
+            onPress={() => viewMessage(message)}
+          >
             View
           </PrimaryButton>
         </div>
       );
     });
-  }, [messages]);
+  }, [messages, viewMessage]);
 
   return (
     <>
       <Title name="Create Message" />
       <div className="mt-4 flex justify-center p-3">
         {isLoading ? (
-          <Spinner size="md" color="current" className="mt-5" />
+          <Spinner />
         ) : (
           <div className="flex w-full flex-col gap-2">{messageList}</div>
         )}
       </div>
+      {currentMessage && (
+        <MessageModal
+          body={currentMessage.body}
+          id={currentMessage.sid}
+          setShowModal={setShowMessageModal}
+          showModal={showMessageModal}
+          to={currentMessage.to}
+        />
+      )}
     </>
   );
 }
