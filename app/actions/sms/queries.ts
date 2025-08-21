@@ -1,6 +1,6 @@
 import { Sms } from '@/app/common/types';
 import { useQuery } from '@tanstack/react-query';
-import { axiosInstance } from '../configs/axios.configs';
+import { axiosInstance } from '../../lib/actions/configs/axios.configs';
 
 export function useGetMessages() {
   console.log('ppppp');

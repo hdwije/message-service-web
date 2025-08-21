@@ -1,12 +1,14 @@
 'use client';
 
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@heroui/react';
+import { format } from 'date-fns';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 
 interface MessageModalProps {
   to: string;
   id: string;
   body: string;
+  sentDate: Date;
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }
@@ -15,6 +17,7 @@ export function MessageModal({
   body,
   id,
   to,
+  sentDate,
   showModal,
   setShowModal,
 }: MessageModalProps) {
@@ -43,6 +46,10 @@ export function MessageModal({
               <div className="font-semibold text-indigo-800">
                 <span className="font-bold">ID: </span>
                 {id}
+              </div>
+              <div className="font-semibold text-indigo-800">
+                <span className="font-bold">Date Sent: </span>
+                {format(sentDate, 'yyyy/MM/dd HH:mm')}
               </div>
               <div className="text-gray-700">
                 <span className="font-bold text-indigo-800">Message: </span>

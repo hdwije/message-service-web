@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { axiosInstance } from '../configs/axios.configs';
+import { axiosInstance } from '../../lib/actions/configs/axios.configs';
 import { Sms } from '@/app/common/types';
 
 export function useSendSms() {

@@ -1,19 +1,28 @@
 'use client';
 
-import { useGetMessages } from '@/app/actions/sms/queries';
 import { Sms } from '@/app/common/types';
-import { PrimaryButton, Spinner, Title } from '@/app/components/common';
 import { Alert } from '@heroui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { PrimaryButton, Spinner, Title } from '@/app/components/common';
 import { MessageModal } from './MessageModal';
+import { useGetSmsMessages } from '@/app/lib/queries/sms.queries';
+import { format } from 'date-fns';
 
 export default function InboxPage() {
+  const pageSize = parseInt(
+    process.env.NEXT_PUBLIC_MESSAGES_PER_PAGE as string,
+  );
+
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [token, setToken] = useState<string | undefined>(undefined);
   const [currentMessage, setCurrentMessage] = useState<Sms | undefined>(
     undefined,
   );
 
-  const { data: messages, isLoading } = useGetMessages();
+  const getSmsMessages = useGetSmsMessages(pageSize, token);
+
+  const { data: { messages = [], nextPageToken } = {}, isLoading } =
+    getSmsMessages;
 
   useEffect(() => {
     if (!showMessageModal) {
@@ -26,12 +35,14 @@ export default function InboxPage() {
     setShowMessageModal(true);
   }, []);
 
+  const gotoNextPage = useCallback(() => {
+    setToken(nextPageToken);
+  }, [nextPageToken]);
+
   const messageList = useMemo(() => {
     if (!messages) {
       return <Alert color="primary" title="Inbox is empty" />;
     }
-
-    console.log(messages);
 
     return (
       messages &&
@@ -45,7 +56,9 @@ export default function InboxPage() {
               <h2 className="text-lg font-bold text-indigo-900">
                 {message.to}
               </h2>
-              <p className="text-gray-600">{message.sid}</p>
+              <p className="text-md text-gray-600">
+                {format(message.dateSent, 'yyyy/MM/dd HH:mm')}
+              </p>
             </div>
             <PrimaryButton
               className="bg-indigo-500 font-semibold text-white transition hover:bg-indigo-600"
@@ -61,7 +74,7 @@ export default function InboxPage() {
 
   return (
     <>
-      <Title name="Create Message" />
+      <Title name="Inbox" />
       <div className="mt-4 flex justify-center p-3">
         {isLoading ? (
           <Spinner />
@@ -74,12 +87,18 @@ export default function InboxPage() {
       {currentMessage && (
         <MessageModal
           body={currentMessage.body}
-          id={currentMessage.sid}
+          id={currentMessage.id}
           setShowModal={setShowMessageModal}
           showModal={showMessageModal}
           to={currentMessage.to}
+          sentDate={currentMessage.dateSent}
         />
       )}
+      <div className="mt-4 flex justify-end p-3">
+        <PrimaryButton disabled={!nextPageToken} onPress={gotoNextPage}>
+          Next Page
+        </PrimaryButton>
+      </div>
     </>
   );
 }

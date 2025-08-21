@@ -1,6 +1,7 @@
 export type Sms = {
-  sid: string;
-  from: string;
+  id: string;
   to: string;
+  from: string;
   body: string;
+  dateSent: Date;
 };

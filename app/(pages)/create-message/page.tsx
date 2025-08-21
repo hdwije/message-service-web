@@ -25,7 +25,7 @@ export default function Dashboard() {
         { message, recipient },
         {
           onSuccess: (sms) => {
-            setSuccessMsg(`SMS sent successfully! Message ID: ${sms.sid}`);
+            setSuccessMsg(`SMS sent successfully! Message ID: ${sms.id}`);
             setRecipient('');
             setMessage('');
             setShowAlert(true);
